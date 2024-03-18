@@ -13,7 +13,7 @@ const props = defineProps({
     user: Object,
 });
 
-// Request to delete student after confirm
+// Request to delete student after confirming
 const removeStudent = (id) => {
     let isBoss = confirm("Are you sure ?");
     if (isBoss) {
@@ -29,7 +29,7 @@ const removeStudent = (id) => {
             <!--      Random color to student avatar if image not loaded       -->
             <div :class="`${defColor()}`"
                  class="rounded-full w-10 h-10 sm:w-20 sm:h-20 overflow-hidden">
-                <!--      Random image to student         -->
+                <!--      Random image for the student         -->
                 <img v-show="isLoaded" @load="isLoaded = true" :src="`https://i.pravatar.cc/300?u=${user.id}`" :alt="`Avatar - ${user.id}`">
             </div>
             <p>
@@ -39,7 +39,7 @@ const removeStudent = (id) => {
         <p class="truncate">
             {{ user?.email }}
         </p>
-        <button @click="removeStudent(user.id)" class="p-2 ml-auto font-base text-white font-medium bg-red-600 max-w-20 rounded-lg">
+        <button title="Delete" @click="removeStudent(user.id)" class="p-2 ml-auto font-base text-white font-medium bg-red-600 max-w-20 rounded-lg">
             Delete
         </button>
     </div>

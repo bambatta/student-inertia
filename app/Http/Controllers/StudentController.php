@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StudentRequest;
 use App\Models\Student;
 use App\Services\StudentService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,33 +13,34 @@ class StudentController extends Controller
 {
     public function __construct(
         private readonly StudentService $studentService
-    ) {
+    )
+    {
     }
 
-    public function index()
+    public function index(): \Inertia\Response
     {
-        return Inertia::render('Students/Index',[
-            'studentsData' => Student::orderByDesc('created_at')->paginate(5)
+        return Inertia::render('Students/Index', [
+            'studentsData' => $this->studentService->get(),
         ]);
     }
 
-    public function store(StudentRequest $request)
+    public function store(StudentRequest $request): RedirectResponse
     {
-        Student::create($request->validated());
+        $this->studentService->create($request->all());
 
         return to_route('students.index');
 
     }
 
-    public function destroy(Request $request, $student_id)
+    public function destroy(Request $request, $student_id): RedirectResponse
     {
 
         $this->studentService->delete($student_id);
 
-        $totalStudents = Student::count();
-        $perPage = 5;
-        $lastPage =  ceil($totalStudents / $perPage);
+        $totalStudents = Student::query()->count();
+        $perPage = config('app.pagination.perPage');
+        $lastPage = ceil($totalStudents / $perPage);
 
-        return to_route('students.index',['page' => $lastPage]);
+        return to_route('students.index', ['page' => $lastPage]);
     }
 }

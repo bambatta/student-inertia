@@ -5,7 +5,18 @@ const props = defineProps({
     links: Array,
 });
 
-// Use default laravel pagination
+const defLabel = (i) => {
+    const idx = i +1
+    if (idx === 1) {
+        return "Previous";
+    } else if (idx === props.links.length) {
+        return "Next";
+    } else {
+        return `Page ${i}`;
+    }
+}
+
+// Use default Laravel pagination
 
 </script>
 
@@ -19,7 +30,9 @@ const props = defineProps({
                 <Link
                     :href="page.url || ''"
                     v-html="page.label"
-                    :class="{'active bg-violet-700 text-white': page.active, 'pointer-events-none bg-gray-300': !page.url}"
+                    :aria-label="defLabel(i)"
+                    :title="defLabel(i)"
+                    :class="{'active bg-violet-700 text-white': page.active, 'pointer-events-none bg-zinc-300': !page.url}"
                     class="p-2 rounded-md bg-violet-200 hover:bg-violet-400 hover:text-white ease-in"
                 />
             </li>

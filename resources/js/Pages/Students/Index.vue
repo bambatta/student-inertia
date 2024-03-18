@@ -15,7 +15,7 @@ const form = useForm({
 
 const submit = () => {
     form.post('/students', {
-        // reset form after successful request to delete
+        // reset form after a successful request to delete
         onSuccess: () => {
             form.reset()
         }
@@ -37,19 +37,19 @@ const submit = () => {
                 <div class="bg-white p-6 overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="flex flex-col md:flex-row gap-2 justify-between items-center">
                         <h1 class="text-2xl font-bold">Student List</h1>
-                        <!--     Using inertia form function to create student                   -->
+                        <!--     Using the inertia form function to create a student                   -->
                         <form class="flex w-full md:w-auto flex-col md:flex-row gap-2 items-center md:items-start" @submit.prevent="submit">
                             <!-- username -->
                             <div class="flex flex-col gap-0.5 w-full">
-                                <input class="rounded-xl focus:border-violet-400" :class="{'border-red-500': form.errors.username}" type="text" placeholder="User" v-model="form.username">
+                                <input name="Student Name" class="rounded-xl focus:border-violet-400" :class="{'border-red-500': form.errors.username}" type="text" placeholder="Student" v-model="form.username">
                                 <div class="text-red-500" v-if="form.errors.username">{{ form.errors.username }}</div>
                             </div>
                             <!-- email -->
                             <div class="flex flex-col gap-0.5 w-full">
-                                <input class="rounded-xl focus:border-violet-400" :class="{'border-red-500': form.errors.email}" type="email" placeholder="Email" v-model="form.email">
+                                <input name="Email" class="rounded-xl focus:border-violet-400" :class="{'border-red-500': form.errors.email}" type="email" placeholder="Email" v-model="form.email">
                                 <div class="text-red-500" v-if="form.errors.email">{{ form.errors.email }}</div>
                             </div>
-                            <button class="p-2 max-h-20 text-lg whitespace-pre text-white font-bold bg-green-400 max-w-40 rounded-lg" type="submit" :disabled="form.processing">+ Create User</button>
+                            <button title="Create User" class="p-2 max-h-20 text-lg whitespace-pre text-white font-bold bg-green-400 max-w-40 rounded-lg" type="submit" :disabled="form.processing">+ Create User</button>
                         </form>
                     </div>
 

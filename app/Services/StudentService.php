@@ -6,6 +6,7 @@ use App\Models\Student;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class StudentService
 {
@@ -13,9 +14,11 @@ class StudentService
     {
         return Student::query()->create($attributes);
     }
-    public function get(): Collection
+    public function get(): LengthAwarePaginator
     {
-        return Student::all();
+        return Student::query()
+            ->orderBy('created_at', 'desc')
+            ->paginate(config('app.pagination.perPage'));
     }
     public function delete(int $student_id): mixed
     {
