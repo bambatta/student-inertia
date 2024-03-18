@@ -1,7 +1,8 @@
 <script setup>
 import { router } from '@inertiajs/vue3'
+import { ref } from 'vue'
 
-const emit = defineEmits(['onDelete'])
+const isLoaded = ref(false)
 
 const defColor = () => {
     const colorsNames = ['bg-sky-200', 'bg-violet-500', 'bg-orange-300', 'bg-rose-700']
@@ -12,9 +13,12 @@ const props = defineProps({
     user: Object,
 });
 
+// Request to delete student after confirm
 const removeStudent = (id) => {
-    router.delete(route('students.destroy', id));
-    emit('onDelete')
+    let isBoss = confirm("Are you sure ?");
+    if (isBoss) {
+        router.delete(route('students.destroy', id));
+    }
 }
 
 </script>
@@ -22,8 +26,12 @@ const removeStudent = (id) => {
 <template>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 items-center border-2 border-violet-400 p-6 rounded-lg">
         <div class="flex items-center gap-2">
+            <!--      Random color to student avatar if image not loaded       -->
             <div :class="`${defColor()}`"
-                 class="rounded-full w-10 h-10 sm:w-20 sm:h-20 "/>
+                 class="rounded-full w-10 h-10 sm:w-20 sm:h-20 overflow-hidden">
+                <!--      Random image to student         -->
+                <img v-show="isLoaded" @load="isLoaded = true" :src="`https://i.pravatar.cc/300?u=${user.id}`" :alt="`Avatar - ${user.id}`">
+            </div>
             <p>
                 {{ user?.username }}
             </p>

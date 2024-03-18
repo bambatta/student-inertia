@@ -1,9 +1,8 @@
 <script setup>
-import {reactive} from "vue";
 import AppLayout from '@/Layouts/AppLayout.vue';
 import StudentCard from "@/Cards/StudentCard.vue";
 import Pagination from "@/Components/Pagination.vue";
-import {useForm, Link, router} from '@inertiajs/vue3'
+import {useForm} from '@inertiajs/vue3'
 
 const props = defineProps({
     studentsData: Object
@@ -16,21 +15,13 @@ const form = useForm({
 
 const submit = () => {
     form.post('/students', {
+        // reset form after successful request to delete
         onSuccess: () => {
             form.reset()
         }
     })
 }
 
-const checkPage = () => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const page = +urlParams.get('page')
-    if (page > 1 && props.studentsData.data.length === 1) {
-        urlParams.set('page', page - 1)
-        window.location.href = window.location.pathname + '?' + urlParams.toString();
-    }
-}
 </script>
 
 <template>
@@ -46,7 +37,7 @@ const checkPage = () => {
                 <div class="bg-white p-6 overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="flex flex-col md:flex-row gap-2 justify-between items-center">
                         <h1 class="text-2xl font-bold">Student List</h1>
-
+                        <!--     Using inertia form function to create student                   -->
                         <form class="flex w-full md:w-auto flex-col md:flex-row gap-2 items-center md:items-start" @submit.prevent="submit">
                             <!-- username -->
                             <div class="flex flex-col gap-0.5 w-full">
@@ -73,9 +64,7 @@ const checkPage = () => {
                             v-for="data in studentsData.data"
                             :key="data.id"
                             :user="data"
-
                         />
-<!--@onDelete="checkPage"-->
                         <Pagination :links="studentsData?.links" />
                     </div>
                 </div>

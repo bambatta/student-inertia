@@ -16,4 +16,6 @@
 
 #### 5. sail up -d
 
+#### 6. sail npm run dev
+
 

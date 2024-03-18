@@ -5,12 +5,17 @@ const props = defineProps({
     links: Array,
 });
 
+// Use default laravel pagination
+
 </script>
 
 <template>
     <nav v-if="links.length > 3" class="pagination mx-auto mt-4">
         <ul class="flex gap-0.5">
-            <li class="" v-for="(page, i) in links">
+            <li v-for="(page, i) in links"
+                :key="i"
+            >
+            <!--                pagination links active or disabled -->
                 <Link
                     :href="page.url || ''"
                     v-html="page.label"
